@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BTCUSD Chart Daily Prediction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .info-box {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            margin: 5px 0;
+            padding: 20px;
+        }
+
+        .info-box:first-child {
+            width: 200px; 
+            height: 150px; 
+        }
+
+        .info-box-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        p{
+            font-size: 32px;
+            margin: 10px 0 0 0;
+        }
+
+        h6{
+            margin: 0;
+        }
+
+        #chart-container {
+            height: 400px;
+            min-width: 310px;
+            background-color: #e0e0e0;
+            color: red;
+            font-size: 24px;
+            flex: 2;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 1000px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>BTCUSD Daily Price Prediction</h1>
+    <div class="flex-container">
+        <div class="info-box-container">
+            <!-- <div class="info-box">
+                <h6>Latest Candle Data</h6>
+                <pre id="latest-data">{{ latest_data }}</pre>
+            </div> -->
+            <div class="info-box">
+                <h6>Next Daily Close in UTC</h6>
+                <p id="next-ytd-close">{{ next_ytd_close }}</p>
+            </div>
+            <div class="info-box">
+                <h6>Current Day Signal</h6>
+                <p id="trading-signal">
+                    {% if signal == 1 %}
+                        Bullish
+                    {% else %}
+                        Bearish
+                    {% endif %}
+                </p>
+            </div>
+            <!-- <div class="info-box">
+                <h6>Probability</h6>
+                <p id="probability">{{ probability }}</p>
+            </div> -->
+            <div class="info-box">
+                <h6>Previous Day Signal</h6>
+                <p id="prev-trading-signal">
+                    {% if prevsignal == 1 %}
+                        Bullish
+                    {% else %}
+                        Bearish
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div id="chart-container"></div>
+    </div>
+
+    <script>
+        var chartData = {{ chart_data|safe }};
+        var ohlc = [],
+            dataLength = Object.keys(chartData).length,
+            i = 0;
+
+        for (var timestamp in chartData) {
+            ohlc.push([
+                parseInt(timestamp), 
+                parseFloat(chartData[timestamp]['open']), 
+                parseFloat(chartData[timestamp]['high']), 
+                parseFloat(chartData[timestamp]['low']), 
+                parseFloat(chartData[timestamp]['close']) 
+            ]);
+
+            i += 1;
+        }
+
+        Highcharts.stockChart('chart-container', {
+            rangeSelector: {
+                buttons: [{
+                    type: 'minute',
+                    count: 1,
+                    text: '1m'
+                }, {
+                    type: 'minute',
+                    count: 3,
+                    text: '3m'
+                }, {
+                    type: 'minute',
+                    count: 6,
+                    text: '6m'
+                }, {
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                }, {
+                    type: 'year',
+                    count: 1,
+                    text: '1y'
+                }, {
+                    type: 'all',
+                    text: 'All'
+                }],
+                selected: 3
+            },
+            title: {
+                text: 'BTCUSD'
+            },
+            series: [{
+                type: 'candlestick',
+                name: 'BTCUSD',
+                data: ohlc
+            }],
+            yAxis: [{
+                labels: {
+                    align: 'right',
+                    x: -3
+                },
+                height: '100%',
+                lineWidth: 2,
+                resize: {
+                    enabled: true
+                }
+            }]
+        });
+    </script>
+</body>
+</html>
