@@ -8,7 +8,7 @@ import ta
 app = Flask(__name__)
 
 # load the model
-model = joblib.load('Midterm/btc-prediction/xgb_model.pkl')
+model = joblib.load('btc-prediction/xgb_model.pkl')
 
 # selected indicators
 selected_features = ['rsi_7_oversold', 'macd_below', 'sma_100', 'rsi_14', 'ema_100', 'cci_14_high', 'rsi_7_overbought', 'macd_above', 'cci_14_low', 'rsi_14_oversold']
