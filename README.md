@@ -2,6 +2,18 @@
 
 This project is a web application that predicts the daily price movement of Bitcoin (BTC) against the US Dollar (USD) using XGBoostClassifier and technical indicators. The application is built using Flask and displays predictions on a web interface with a candlestick chart.
 
+## Project Structure
+
+- `btc-prediction/`: Main project directory
+  - `app.py`: Flask web application
+  - `templates/`: HTML templates for the web application
+    - `index.html`: Main page template displaying the BTCUSD chart and predictions
+  - `xgb_model.pkl`: Pre-trained XGBoost model
+- `midterm.ipynb`: Jupyter Notebook containing the data analysis and model training code
+- `Pipfile`: Pipenv file specifying project dependencies
+- `Pipfile.lock`: Pipenv lock file with pinned dependency versions
+- `Dockerfile`: Dockerfile for containerizing the application
+
 ## Features
 
 - Fetches BTC-USD data from Yahoo Finance.
@@ -22,42 +34,61 @@ This project is a web application that predicts the daily price movement of Bitc
 
 ## Setup
 
-1. **Clone the repository:**
+1. Install Pipenv:
 
-   ```bash
-   git clone https://github.com/garlicspoofiyy/btcusd-price-prediction.git
-   cd btc-prediction
+   ```
+   pip install pipenv
    ```
 
-2. **Install the required packages:**
+2. Install project dependencies:
 
-   You can install the required Python packages using pip:
-
-   ```bash
-   pip install -r requirements.txt
+   ```
+   pipenv install
    ```
 
-3. **Download the pre-trained model:**
+3. Activate the virtual environment:
 
-   Ensure that the `xgb_model.pkl` file is located in the `Midterm/btc-prediction/` directory.
-
-4. **Run the application:**
-
-   Start the Flask application by running:
-
-   ```bash
-   python Midterm/btc-prediction/app.py
+   ```
+   pipenv shell
    ```
 
-   The application will be accessible at `http://0.0.0.0:9696`.
+4. Run the Flask application:
+
+   ```
+   python btc-prediction/app.py
+   ```
+
+5. Access the web application at `http://localhost:9696`.
+
+## Docker
+
+To run the application using Docker:
+
+1. Build the Docker image:
+
+   ```
+   docker build -t btc-prediction .
+   ```
+
+2. Run the Docker container:
+
+   ```
+   docker run -p 9696:9696 btc-prediction
+   ```
+
+3. Access the web application at `http://localhost:9696`.
 
 ## Usage
 
-- Open a web browser and navigate to `http://localhost:9696`.
-- The page will display the BTCUSD daily price prediction, including the next daily close time in UTC, the current and previous day signal, and a candlestick chart of BTCUSD prices.
+- The web application displays a candlestick chart of BTCUSD historical data.
+- The "Next Daily Close in UTC" shows the time remaining until the next daily candle close.
+- The prediction of the model relies on the data of the current candle.
+- The final prediction is based after the current candle closes.
+- The "Current Day Signal" indicates the predicted price movement for the current day (Bullish or Bearish).
+- The "Previous Day Signal" shows the predicted price movement for the previous day.
 
-## File Structure
+## Model Training
 
-- `app.py`: The main Flask application file that handles data fetching, processing, and rendering.
-- `templates/index.html`: The HTML template for the web interface.
-- `xgb_model.pkl`: The pre-trained XGBoost model used for predictions.
+The Jupyter Notebook `btc-prediction-notebook.ipynb` contains the code for data analysis, feature engineering, and model training. It demonstrates the process of fetching historical data, calculating technical indicators, splitting the data into training and testing sets, and training an XGBoost classifier model.
+
+The trained model is saved as `btc-prediction/xgb_model.pkl` and is used by the Flask application for making predictions.
