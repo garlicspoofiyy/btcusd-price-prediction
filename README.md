@@ -21,17 +21,6 @@ This project is a web application that predicts the daily price movement of Bitc
 - Uses a pre-trained XGBoost model to predict the probability of price movement.
 - Displays the prediction results (Bullish or Bearish for the next day candle) and a candlestick chart on a web page.
 
-## Requirements
-
-- Python 3.7+
-- Flask
-- Pandas
-- NumPy
-- Joblib
-- yfinance
-- ta (Technical Analysis Library)
-- Highcharts (for chart visualization)
-
 ## Setup
 
 1. Install Pipenv:
