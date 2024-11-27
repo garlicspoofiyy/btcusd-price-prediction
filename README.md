@@ -14,6 +14,10 @@ This project is a web application that predicts the daily price movement of Bitc
 - `Pipfile.lock`: Pipenv lock file with pinned dependency versions
 - `Dockerfile`: Dockerfile for containerizing the application
 
+### Data Source
+
+The data used for training the model and making predictions is sourced from the Kaggle dataset [Bitcoin Price Trends with Indicators (8 Years)](https://www.kaggle.com/datasets/aspillai/bitcoin-price-trends-with-indicators-8-years).
+
 ## Features
 
 - Fetches BTC-USD data from Yahoo Finance.
